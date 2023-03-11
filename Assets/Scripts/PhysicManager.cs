@@ -12,7 +12,10 @@ public class PhysicManager : MonoBehaviour
     private bool _usingGravity;
     private Vector3 _gravityToApply;
     private Vector3 _localGravity;
-    
+
+    void Start()
+    {
+    }
 
     private Vector3 _gravityVector;
     // Start is called before the first frame update
@@ -33,6 +36,9 @@ public class PhysicManager : MonoBehaviour
             //Since everything is so small in the Unity simulator, we use a small value
             //we could determine this number with the scale and the weigh of the player model
             _playerRb.AddForce((_gravityToApply * 0.00000001f));
+            
+            _playerRb.velocity = Vector3.ClampMagnitude(_playerRb.velocity, 0.1f);
+
 
 
         }
