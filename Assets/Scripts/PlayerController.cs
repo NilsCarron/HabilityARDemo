@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     public void MoveCharacter(Vector3 movement)
     {
+
         _playerTransform.Translate(movement);
 
     }

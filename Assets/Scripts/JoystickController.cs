@@ -40,23 +40,17 @@ namespace Assets.Scripts
         {
             if (_isTouching)
             {
-                _player.GetComponent<PlayerController>().MoveCharacter(_vectorMove*0.1f  * Time.deltaTime);
+                _player.GetComponent<PlayerController>().MoveCharacter(_vectorMove*0.05f  * Time.deltaTime);
 
             }
+            //_player.transform.rotation = Quaternion.LookRotation(Vector3.zero);
+
 
         }
 
         void OnTouch(Vector2 vecTouch)
         {
-            if (_doubleTap)
-            {
-                _player.GetComponent<PlayerController>().JumpCharacter();
-            }
-            else
-            {
-                _doubleTap = true;
-                StartCoroutine(ResetJumpCountDown());
-            }
+            
             Vector2 vec = new Vector2(vecTouch.x - _transformBack.position.x, vecTouch.y - _transformBack.position.y);
 
         
@@ -69,10 +63,22 @@ namespace Assets.Scripts
 
             _vectorMove = new Vector3(vecNormal.x *  Time.deltaTime * fSqr, 0f,
                 vecNormal.y *  Time.deltaTime * fSqr);
-            
+            if (_vectorMove == Vector3.zero)
+            {
+                if (_doubleTap)
+                {
+                    _player.GetComponent<PlayerController>().JumpCharacter();
+                    _doubleTap = false;
+                }
+                else
+                {
+                    _doubleTap = true;
+                    StartCoroutine(ResetJumpCountDown());
+                }
+            }
 
 
-            
+
         }
         
         

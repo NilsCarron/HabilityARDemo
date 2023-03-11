@@ -21,6 +21,7 @@ public class PhysicManager : MonoBehaviour
     // Start is called before the first frame update
     void FixedUpdate()
     {
+        _playerRb.rotation = _deathPlane.transform.rotation;
         //Since the image to detect isn't fixed we have to emulate gravity
         if (_usingGravity)
         {
