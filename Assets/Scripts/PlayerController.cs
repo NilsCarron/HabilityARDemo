@@ -8,7 +8,8 @@ namespace Assets.Scripts
         private Collider _playerDetectionCollider;
         [SerializeField]
         private Rigidbody _playerRigidBody;
-        
+
+        [SerializeField] private Animator _playerAnimator;
         private Transform _playerTransform;
         private Vector3 _spawnTransform;
         private bool _isGrounded;
@@ -61,7 +62,7 @@ namespace Assets.Scripts
                 _playerRigidBody.AddForce(_playerTransform.transform.up * 0.0000002f );
                 //Once again here, we clamp the force added to the character so it doesn't stack force
                 _playerRigidBody.velocity = Vector3.ClampMagnitude(_playerRigidBody.velocity, 00.1f);
-
+                _playerAnimator.SetBool("IsJumping", true);
             }   
         }
 
@@ -81,6 +82,7 @@ namespace Assets.Scripts
             {
                 case "Ground" :
                     _isGrounded = true;
+                    _playerAnimator.SetBool("IsJumping", false);
                     break;
                 case "Objective":
                     GameManager.Instance.AddScore();
