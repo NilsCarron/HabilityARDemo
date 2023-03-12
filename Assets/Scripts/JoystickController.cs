@@ -9,6 +9,8 @@ namespace Assets.Scripts
         
         [SerializeField]
         private GameObject _joystickBack, _joystick, _player, _playerModel;
+
+        [SerializeField] private Camera _cameraAr;
         // Both joysticks are Ui 
         // player is the character on which we'll apply the movement, while the model is purely for display
         
@@ -18,7 +20,7 @@ namespace Assets.Scripts
         private float _radius;
     
         //Declaring variable for the controls
-        private Vector3 _vectorMove;
+        private Vector3 _vectorMove, _forward, _right;
         private bool _isTouching;
         //DoubleTap is true if the player *might* be double-taping
         private bool _doubleTap;
@@ -31,8 +33,7 @@ namespace Assets.Scripts
             _transformBack=_joystickBack.GetComponent<RectTransform>();
             _transformJoystick = _joystick.GetComponent<RectTransform>();
             _radius = _transformBack.rect.width * 0.5f;
-        
-
+            
         }
         
           
@@ -51,6 +52,9 @@ namespace Assets.Scripts
         {
             if (_isTouching)
             {
+                
+     
+                
                 _player.GetComponent<PlayerController>().MoveCharacter(_vectorMove*0.05f  * Time.deltaTime);
 
             }
@@ -76,12 +80,24 @@ namespace Assets.Scripts
             //Clamping the vector so the player can put his finger far from the joystick without generating to big Vector
             vec = Vector2.ClampMagnitude(vec, _radius);
             //Implicit conversion here, working with Vectors2 since we are on UI
+            
+            
+            
+           
             _transformJoystick.localPosition = vec;
+            
+            //Make the movment relative to the camera angle
+            _forward = _cameraAr.transform.forward;
+            _right = _cameraAr.transform.right;
+            
             
             //Creating the movement vector from the joystick direction, scaling it
             float fSqr = (_transformBack.position - _transformJoystick.position).sqrMagnitude / (_radius * _radius);
-            Vector2 vecNormal = vec;
-            _vectorMove = new Vector3(vecNormal.x *  Time.deltaTime * fSqr, 0f,
+            Vector2 vecNormal = vec *( _forward+ _right);
+            
+           
+            
+            _vectorMove = new Vector3(-vecNormal.x *  Time.deltaTime * fSqr, 0f,
                 vecNormal.y *  Time.deltaTime * fSqr);
             
             //Check if the finger is at the center of the joystick

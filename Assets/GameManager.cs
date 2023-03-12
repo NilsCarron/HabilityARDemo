@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private bool _end;
     private static int _score;
-    public static int ScoreToEndGame = 1;
+    public static int ScoreToEndGame = 5;
 
    public static GameManager Instance
    {
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
     
     public void AddScore()
     {
-        _score += 5;
+        _score += 1;
         if (_score >= ScoreToEndGame)
         {
             _instance.EndOfTheGame(); 

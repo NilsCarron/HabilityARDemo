@@ -9,18 +9,18 @@ namespace Assets.Scripts
         [SerializeField]
         private Rigidbody _playerRigidBody;
 
+        [SerializeField] private GameObject _playerSpawner;
         [SerializeField] private Animator _playerAnimator;
         private Transform _playerTransform;
-        private Vector3 _spawnTransform;
+        
         private bool _isGrounded;
-        private const float MaxSpeed = 0.001f;
+        private const float MaxSpeed = 0.01f;
 
 
         // Start is called before the first frame update
         void Start()
         {
             _playerTransform = this.transform;
-            _spawnTransform = new Vector3(_playerTransform.position.x,_playerTransform.position.y,_playerTransform.position.z );
         }
 
           
@@ -89,7 +89,7 @@ namespace Assets.Scripts
                     Destroy(otherCollider.gameObject);
                     break;
                 case "DeathPlane" :
-                    _playerTransform.position = _spawnTransform;
+                    _playerTransform.position = _playerSpawner.transform.position;
                     Debug.Log("Dead");
                     break;
                 default:
