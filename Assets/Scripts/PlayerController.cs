@@ -10,6 +10,7 @@ namespace Assets.Scripts
         private Rigidbody _playerRigidBody;
         
         private Transform _playerTransform;
+        private Vector3 _spawnTransform;
         private bool _isGrounded;
         private const float MaxSpeed = 0.001f;
 
@@ -18,7 +19,7 @@ namespace Assets.Scripts
         void Start()
         {
             _playerTransform = this.transform;
-            
+            _spawnTransform = new Vector3(_playerTransform.position.x,_playerTransform.position.y,_playerTransform.position.z );
         }
 
           
@@ -74,9 +75,23 @@ namespace Assets.Scripts
         {
             // We use here a OnTriggerStay, because the player may exit a ground and go on another
             //so if the _isGrounded is not correctly set at that moment, it is at the next frame
-            if (otherCollider.tag == "Ground")
+
+
+            switch (otherCollider.tag)
             {
-                _isGrounded = true;
+                case "Ground" :
+                    _isGrounded = true;
+                    break;
+                case "Objective":
+                    GameManager.Instance.AddScore();
+                    Destroy(otherCollider.gameObject);
+                    break;
+                case "DeathPlane" :
+                    _playerTransform.position = _spawnTransform;
+                    Debug.Log("Dead");
+                    break;
+                default:
+                    break;
             }
         
         }

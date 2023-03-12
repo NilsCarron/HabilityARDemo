@@ -12,9 +12,12 @@ public class GameManager : MonoBehaviour
     private float _timePlayed;
     //the text on which the end game will be displayed
     [SerializeField]  private TextMeshProUGUI _ending;
+    [SerializeField]  private GameObject _endingAnimation ;
+
     private bool _end;
     private static int _score;
-    
+    public static int ScoreToEndGame = 1;
+
    public static GameManager Instance
    {
       get
@@ -29,26 +32,28 @@ public class GameManager : MonoBehaviour
    /// When the game is over, to stop the game and display the score
    /// This function will also reset the game after 8 seconds
    /// </summary>
-   public void EndOfTHeGame()
+   public void EndOfTheGame()
     {
+        Debug.Log("end of the game");
         _end = true;
-        _ending.text = "You finished the level in " + _timePlayed + " Seconds! The High Score is " ;
         
         //Loading the score of the player in the file PlayerPrefs.GetFloat, checking if this is a new high score
         if((PlayerPrefs.GetFloat("highScore") < _timePlayed) && PlayerPrefs.GetFloat("highScore") != 0f)
         {
-            _ending.text = "You finished the level in " + _timePlayed + "Seconds! The high score is still at " + PlayerPrefs.GetFloat("highScore");
+            _ending.text = "The monkey Starts coding !<br>You finished the level in " + _timePlayed + "Seconds! The high score is still at " + PlayerPrefs.GetFloat("highScore");
 
         }
         else
         {
-            _ending.text = "You finished the level in " + _timePlayed + " Seconds! This is the new high score, congratulation!";
+            _ending.text = "The monkey Starts coding !<br>You finished the level in " + _timePlayed + " Seconds! This is the new high score, congratulation!";
             PlayerPrefs.SetFloat("highScore", _timePlayed);
             //We save the new high score
             PlayerPrefs.Save();
 
         }
         //Starting the countdown to reset the game
+        _endingAnimation.SetActive(true);
+        
         StartCoroutine(LoadEndOfGame());
 
 
@@ -61,6 +66,17 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+
+    
+    public void AddScore()
+    {
+        _score += 5;
+        if (_score >= ScoreToEndGame)
+        {
+            _instance.EndOfTheGame(); 
+        }
+    }
+    
     private void Update()
     {
         //If the game is over, we don't add score

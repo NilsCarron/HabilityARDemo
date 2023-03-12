@@ -56,7 +56,8 @@ namespace Assets.Scripts
             }
             
             //Updating the rotation of the model, it is facing the direction the joystick is moving toward
-            _playerModel.transform.localRotation = Quaternion.LookRotation(_vectorMove);
+            if(_vectorMove != Vector3.zero)
+                _playerModel.transform.localRotation = Quaternion.LookRotation(_vectorMove);
 
 
         }
