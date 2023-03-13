@@ -14,7 +14,7 @@ namespace Assets.Scripts
         private Transform _playerTransform;
         
         private bool _isGrounded;
-        private const float MaxSpeed = 0.01f;
+        private const float MaxSpeed = 0.1f;
 
 
         // Start is called before the first frame update
@@ -40,11 +40,11 @@ namespace Assets.Scripts
             //Check if the player is in the airs
             if (!_isGrounded)
                 //Double the speed in the airs so the jmp feels more natural
-                _playerTransform.Translate(movement*2);
+                _playerTransform.Translate(movement*4);
         
             else
             {
-                _playerTransform.Translate(movement);
+                _playerTransform.Translate(movement*2);
             }
 
         }
@@ -90,7 +90,6 @@ namespace Assets.Scripts
                     break;
                 case "DeathPlane" :
                     _playerTransform.position = _playerSpawner.transform.position;
-                    Debug.Log("Dead");
                     break;
                 default:
                     break;

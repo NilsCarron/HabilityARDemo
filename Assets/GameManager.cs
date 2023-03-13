@@ -50,7 +50,10 @@ public class GameManager : MonoBehaviour
             //We save the new high score
             PlayerPrefs.Save();
 
+
         }
+        _score = 0;
+
         //Starting the countdown to reset the game
         _endingAnimation.SetActive(true);
         

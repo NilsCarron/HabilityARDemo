@@ -93,12 +93,12 @@ namespace Assets.Scripts
             
             //Creating the movement vector from the joystick direction, scaling it
             float fSqr = (_transformBack.position - _transformJoystick.position).sqrMagnitude / (_radius * _radius);
-            Vector2 vecNormal = vec *( _forward+ _right);
+            Vector2 vecNormal = vec;
             
            
             
             _vectorMove = new Vector3(-vecNormal.x *  Time.deltaTime * fSqr, 0f,
-                vecNormal.y *  Time.deltaTime * fSqr);
+                -vecNormal.y *  Time.deltaTime * fSqr);
             
             //Check if the finger is at the center of the joystick
             //This mean the player just tap on the screen
